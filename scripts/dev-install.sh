@@ -22,7 +22,26 @@ esac
 
 printf '\n==> Installing prerequisites (including bubblewrap for Codex sandboxing)\n'
 sudo apt-get update
-sudo apt-get install -y ca-certificates curl git bubblewrap
+sudo apt-get install -y ca-certificates curl git bubblewrap tar gzip
+
+printf '\n==> Installing or updating lazygit\n'
+LAZYGIT_VERSION=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest |
+  sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
+if [[ -z "$LAZYGIT_VERSION" ]]; then
+  echo 'Unable to determine the latest lazygit version.' >&2
+  exit 1
+fi
+LAZYGIT_ARCH=$(uname -m)
+case "$LAZYGIT_ARCH" in
+  aarch64) LAZYGIT_ARCH=arm64 ;;
+esac
+LAZYGIT_TEMP_DIR=$(mktemp -d)
+trap 'rm -rf -- "$LAZYGIT_TEMP_DIR"' EXIT
+curl -fsSL \
+  "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_${LAZYGIT_ARCH}.tar.gz" \
+  -o "$LAZYGIT_TEMP_DIR/lazygit.tar.gz"
+tar -xzf "$LAZYGIT_TEMP_DIR/lazygit.tar.gz" -C "$LAZYGIT_TEMP_DIR" lazygit
+sudo install -m 0755 "$LAZYGIT_TEMP_DIR/lazygit" /usr/local/bin/lazygit
 
 # Installing Node via nvm keeps global npm packages in the user's home directory.
 # This avoids sudo npm installs and allows switching Node versions per project.
@@ -82,7 +101,8 @@ node --version
 npm --version
 codex --version
 herdr --version
+lazygit --version
 
-printf '\nDone. Open a new terminal, then run: codex or herdr\n'
+printf '\nDone. Open a new terminal, then run: codex, herdr or lazygit\n'
 printf 'To update Codex later: npm install -g @openai/codex\n'
 printf 'To update Herdr later: herdr update\n'
