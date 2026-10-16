@@ -4,6 +4,7 @@
 - Respond in Japanese unless another language is explicitly requested.
 - Keep technical terms in English when translation would reduce clarity.
 - Prioritize accuracy, clarity, and conciseness.
+- コードコメント、コミットメッセージも日本語で書いてください。
 
 ## Writing Style
 - Write naturally and directly.
