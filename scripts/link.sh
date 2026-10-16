@@ -9,7 +9,7 @@ if [[ "$DOTFILES_DIR" == "$HOME_DIR" ]]; then
   exit 1
 fi
 
-for required_file in .codex/AGENTS.md .bashrc; do
+for required_file in .codex/AGENTS.md .bashrc .wezterm.lua; do
   if [[ ! -f "$DOTFILES_DIR/$required_file" ]]; then
     printf 'リンク元がありません: %s\n' "$DOTFILES_DIR/$required_file" >&2
     exit 1
@@ -21,7 +21,7 @@ if [[ ! -d "$DOTFILES_DIR/.config" ]]; then
 fi
 
 mapfile -d '' -t CONFIG_FILES < <(find "$DOTFILES_DIR/.config" -type f -print0)
-SOURCE_FILES=("${CONFIG_FILES[@]}" "$DOTFILES_DIR/.codex/AGENTS.md" "$DOTFILES_DIR/.bashrc")
+SOURCE_FILES=("${CONFIG_FILES[@]}" "$DOTFILES_DIR/.codex/AGENTS.md" "$DOTFILES_DIR/.bashrc" "$DOTFILES_DIR/.wezterm.lua")
 BACKUP_DIR=''
 
 for source_file in "${SOURCE_FILES[@]}"; do
