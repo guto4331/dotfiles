@@ -2,6 +2,7 @@ return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
+		lazy = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
@@ -9,8 +10,12 @@ return {
 		},
 		keys = {
 			{ "<leader>e", "<Cmd>Neotree toggle<CR>", desc = "ファイルツリーを開閉" },
+			{ "<C-f>", "<Cmd>Neotree toggle<CR>", desc = "ファイルツリーを開閉" },
 		},
-		opts = {},
+		opts = {
+			window = { mappings = { ["<C-f>"] = "close_window" } },
+			filesystem = { hijack_netrw_behavior = "open_default" },
+		},
 	},
 	{
 		"nvim-telescope/telescope.nvim",
