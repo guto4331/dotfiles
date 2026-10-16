@@ -29,6 +29,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # shellcheck disable=SC1091
 source "${CARGO_HOME:-$HOME/.cargo}/env"
 
+printf '\n==> StyLuaをインストールします\n'
+cargo install stylua
+
 printf '\n==> Installing or updating lazygit\n'
 LAZYGIT_VERSION=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest |
   sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
