@@ -35,3 +35,33 @@ LSP server はこの設定には含めていません。未設定の状態でも
 依存関係は `:checkhealth lazy`、`:checkhealth telescope`、`:ConformInfo` で確認できます。
 
 設定は [lazy.nvim](https://lazy.folke.io/installation)、[blink.cmp](https://cmp.saghen.dev/installation)、[Conform](https://github.com/stevearc/conform.nvim#setup) の公式ドキュメントに沿っています。
+
+## LaTeX
+
+`.tex` ファイルでは VimTeX と英語のスペルチェックが有効になります。
+日本語などの CJK 文字はスペルチェックの対象から除外します。
+latexmk は `scripts/init-setup.sh` のインストール対象です。
+
+| キー | 操作 |
+| --- | --- |
+| `\ll` | latexmk の継続ビルドを開始・停止 |
+| `\le` | ビルドエラーを表示 |
+| `\lv` | PDF を開く |
+| `\lt` | 目次を表示 |
+| `]s` / `[s` | 次・前のスペル誤りへ移動 |
+| `z=` | 修正候補を表示 |
+| `zg` | 単語を個人辞書に登録 |
+| `zw` | 単語を誤りとして登録 |
+
+ビルドには TeX Live などの TeX 環境も必要です。
+既定では pdfLaTeX を使います。日本語文書で LuaLaTeX を使う場合はファイルの先頭に次を記述します。
+
+```tex
+% !TeX program = lualatex
+```
+
+PDF 表示にはシステムの既定の PDF viewer を使用します。
+`:VimtexInfo` でコンパイラと viewer の設定を確認できます。
+スペルチェックは `:setlocal nospell` で無効にできます。
+
+[VimTeX の公式ドキュメント](https://github.com/lervag/vimtex) と [Neovim のスペルチェック](https://neovim.io/doc/user/spell/) を参照しています。

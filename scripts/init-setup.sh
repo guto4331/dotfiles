@@ -23,16 +23,22 @@ With no mode specified, WSL is detected first, then a graphical desktop.
 USAGE
 }
 
-fail() { printf 'Error: %s\n' "$*" >&2; exit 1; }
+fail() {
+  printf 'Error: %s\n' "$*" >&2
+  exit 1
+}
 
 while (($#)); do
   case "$1" in
     --desktop) MODE="desktop" ;;
-    --wsl)     MODE="wsl" ;;
-    --cli)     MODE="cli" ;;
+    --wsl) MODE="wsl" ;;
+    --cli) MODE="cli" ;;
     --upgrade) UPGRADE=true ;;
     --dry-run) DRY_RUN=true ;;
-    -h|--help) usage; exit 0 ;;
+    -h | --help)
+      usage
+      exit 0
+      ;;
     *) fail "Unknown option: $1" ;;
   esac
   shift
@@ -64,7 +70,7 @@ if [[ "$MODE" == "auto" ]]; then
   fi
 fi
 
-if (( EUID == 0 )); then
+if ((EUID == 0)); then
   ROOT=()
 else
   command -v sudo >/dev/null || fail 'sudo is required for non-root users.'
@@ -115,6 +121,7 @@ COMMON_PACKAGES=(
   libffi-dev liblzma-dev libncurses-dev
   # Editor
   neovim
+  latexmk
 )
 
 DESKTOP_PACKAGES=(
