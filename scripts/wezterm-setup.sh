@@ -37,3 +37,14 @@ printf '\n==> WezTerm nightlyをインストールまたは更新します\n'
 sudo apt-get update
 sudo apt-get install -y wezterm-nightly
 wezterm --version
+
+printf '\n==> Starshipをインストールまたは更新します\n'
+curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+
+DOTFILES_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+DOTFILES_BASHRC="$DOTFILES_DIR/.bashrc"
+STARSHIP_INIT="eval \"\$(starship init bash)\""
+touch "$DOTFILES_BASHRC"
+if ! grep -Fxq "$STARSHIP_INIT" "$DOTFILES_BASHRC"; then
+  printf '\n%s\n' "$STARSHIP_INIT" >>"$DOTFILES_BASHRC"
+fi
