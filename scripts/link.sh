@@ -28,6 +28,10 @@ for source_file in "${SOURCE_FILES[@]}"; do
   relative_path=${source_file#"$DOTFILES_DIR/"}
   target_file="$HOME_DIR/$relative_path"
 
+  if [[ "$source_file" -ef "$target_file" ]]; then
+    continue
+  fi
+
   if [[ -L "$target_file" ]] && [[ "$(readlink -- "$target_file")" == "$source_file" ]]; then
     continue
   fi
