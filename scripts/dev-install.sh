@@ -24,6 +24,11 @@ printf '\n==> Installing prerequisites (including bubblewrap for Codex sandboxin
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git bubblewrap tar gzip
 
+printf '\n==> rustupでRustをインストールします\n'
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# shellcheck disable=SC1091
+source "${CARGO_HOME:-$HOME/.cargo}/env"
+
 printf '\n==> Installing or updating lazygit\n'
 LAZYGIT_VERSION=$(curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest |
   sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p')
@@ -102,7 +107,10 @@ npm --version
 codex --version
 herdr --version
 lazygit --version
+rustc --version
+cargo --version
 
 printf '\nDone. Open a new terminal, then run: codex, herdr or lazygit\n'
 printf 'To update Codex later: npm install -g @openai/codex\n'
 printf 'To update Herdr later: herdr update\n'
+printf 'Rustの更新: rustup update\n'
