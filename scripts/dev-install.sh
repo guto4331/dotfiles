@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Ubuntu Desktop / WSL (Ubuntu): install Node.js LTS, npm and OpenAI Codex CLI.
 set -Eeuo pipefail
 
-if (( EUID == 0 )); then
+if ((EUID == 0)); then
   echo 'Run this script as your normal user, not with sudo.' >&2
   exit 1
 fi
@@ -14,7 +13,7 @@ fi
 # shellcheck disable=SC1091
 source /etc/os-release
 case "${ID:-}" in
-  ubuntu|debian) ;;
+  ubuntu | debian) ;;
   *)
     echo "This script supports Ubuntu and Debian (detected: ${ID:-unknown})." >&2
     exit 1
@@ -44,7 +43,7 @@ fi
 BASHRC="$HOME/.bashrc"
 touch "$BASHRC"
 if ! grep -Fq '# BEGIN install-node-codex nvm' "$BASHRC"; then
-  cat >> "$BASHRC" <<'NVM_BASHRC'
+  cat >>"$BASHRC" <<'NVM_BASHRC'
 
 # BEGIN install-node-codex nvm
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
@@ -65,10 +64,25 @@ nvm use default
 printf '\n==> Installing or updating Codex CLI\n'
 npm install --global @openai/codex
 
+printf '\n==> Installing or updating Herdr\n'
+curl -fsSL https://herdr.dev/install.sh | sh
+
+if ! grep -Fq '# BEGIN dev-install herdr' "$BASHRC"; then
+  cat >>"$BASHRC" <<'HERDR_BASHRC'
+
+# BEGIN dev-install herdr
+export PATH="${HERDR_INSTALL_DIR:-$HOME/.local/bin}:$PATH"
+# END dev-install herdr
+HERDR_BASHRC
+fi
+export PATH="${HERDR_INSTALL_DIR:-$HOME/.local/bin}:$PATH"
+
 printf '\n==> Installed versions\n'
 node --version
 npm --version
 codex --version
+herdr --version
 
-printf '\nDone. Open a new terminal, then run: codex\n'
+printf '\nDone. Open a new terminal, then run: codex or herdr\n'
 printf 'To update Codex later: npm install -g @openai/codex\n'
+printf 'To update Herdr later: herdr update\n'
