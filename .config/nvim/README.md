@@ -27,14 +27,20 @@ nvim
 | Ctrl n / Ctrl p | 補完候補を選択 |
 | Ctrl y | 補完を確定 |
 
-Lua は StyLua、Shell は shfmt で保存時にも整形します。
+Lua は StyLua、Shell は shfmt、TOML は Taplo で保存時にも整形します。
+フォーマッタは Mason で管理します。初回起動時に `stylua`・`shfmt`・`taplo` を自動インストールします。
+`:Mason` でインストール状態を確認できます。
+今後フォーマッタを追加する場合は `lua/plugins/editor.lua` の `ensure_installed` と
+Conform の `formatters_by_ft` に追加してください。
+Mason の実行ファイルは Neovim 内の PATH に追加されます。
+端末から直接実行する場合は `~/.local/share/nvim/mason/bin/taplo` などのパスを指定してください。
 `nvim .` などでディレクトリを開くと neo-tree を自動表示します。
 全文検索には通常の端末の PATH から使える ripgrep が必要です。
 LSP server はこの設定には含めていません。未設定の状態でもバッファ内の単語やパスの補完を使用できます。
 
 依存関係は `:checkhealth lazy`、`:checkhealth telescope`、`:ConformInfo` で確認できます。
 
-設定は [lazy.nvim](https://lazy.folke.io/installation)、[blink.cmp](https://cmp.saghen.dev/installation)、[Conform](https://github.com/stevearc/conform.nvim#setup) の公式ドキュメントに沿っています。
+設定は [lazy.nvim](https://lazy.folke.io/installation)、[blink.cmp](https://cmp.saghen.dev/installation)、[Conform](https://github.com/stevearc/conform.nvim#setup)、[Mason](https://github.com/mason-org/mason.nvim)、[mason-tool-installer](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) の公式ドキュメントに沿っています。
 
 ## LaTeX
 

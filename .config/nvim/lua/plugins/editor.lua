@@ -1,5 +1,18 @@
 return {
 	{
+		"mason-org/mason.nvim",
+		lazy = false,
+		opts = {},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		lazy = false,
+		dependencies = { "mason-org/mason.nvim" },
+		opts = {
+			ensure_installed = { "stylua", "shfmt", "taplo" },
+		},
+	},
+	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
 		lazy = false,
@@ -32,6 +45,7 @@ return {
 	},
 	{
 		"stevearc/conform.nvim",
+		dependencies = { "mason-org/mason.nvim" },
 		event = "BufWritePre",
 		cmd = "ConformInfo",
 		keys = {
@@ -49,6 +63,7 @@ return {
 				lua = { "stylua" },
 				sh = { "shfmt" },
 				bash = { "shfmt" },
+				toml = { "taplo" },
 			},
 			format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
 		},
