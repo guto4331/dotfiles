@@ -24,6 +24,9 @@ printf '\n==> Installing prerequisites (including bubblewrap for Codex sandboxin
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl git bubblewrap tar gzip
 
+printf '\n==> uvをインストールします\n'
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 printf '\n==> rustupでRustをインストールします\n'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # shellcheck disable=SC1091
