@@ -128,4 +128,9 @@ export PATH="${HERDR_INSTALL_DIR:-$HOME/.local/bin}:$PATH"
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
 
+export PATH="/usr/local/go/bin:$PATH"
+if command -v go >/dev/null 2>&1; then
+  export PATH="$PATH:$(go env GOPATH)/bin"
+fi
+
 alias pbcopy='xsel --clipboard --input'
