@@ -29,12 +29,19 @@
   for source_file in "${SOURCE_FILES[@]}"; do
     relative_path=${source_file#"$DOTFILES_DIR/"}
     target_file="$HOME_DIR/$relative_path"
+    copy_file=false
+    if [[ "$relative_path" == .codex/rules/*.rules ]]; then
+      copy_file=true
+      if [[ -f "$target_file" && ! -L "$target_file" ]] && cmp -s -- "$source_file" "$target_file"; then
+        continue
+      fi
+    fi
 
-    if [[ "$source_file" -ef "$target_file" ]]; then
+    if [[ "$copy_file" == false && "$source_file" -ef "$target_file" ]]; then
       continue
     fi
 
-    if [[ -L "$target_file" ]] && [[ "$(readlink -- "$target_file")" == "$source_file" ]]; then
+    if [[ "$copy_file" == false && -L "$target_file" ]] && [[ "$(readlink -- "$target_file")" == "$source_file" ]]; then
       continue
     fi
 
@@ -49,7 +56,12 @@
     fi
 
     mkdir -p -- "$(dirname -- "$target_file")"
-    ln -s -- "$source_file" "$target_file"
-    printf 'リンクを作成しました: %s -> %s\n' "$target_file" "$source_file"
+    if [[ "$copy_file" == true ]]; then
+      cp -- "$source_file" "$target_file"
+      printf 'コピーしました: %s -> %s\n' "$source_file" "$target_file"
+    else
+      ln -s -- "$source_file" "$target_file"
+      printf 'リンクを作成しました: %s -> %s\n' "$target_file" "$source_file"
+    fi
   done
 )
