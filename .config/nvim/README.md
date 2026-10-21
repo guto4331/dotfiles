@@ -57,6 +57,10 @@ Markdown ファイルでは render-markdown.nvim が見出し・表・コード�
 日本語などの CJK 文字はスペルチェックの対象から除外します。
 latexmk は `scripts/init-setup.sh` のインストール対象です。
 
+保存すると latexmk の継続ビルドを開始し、成功後にシステムの既定の PDF viewer で PDF を開きます。
+以降の保存では同じプロセスが再コンパイルします。
+`:VimtexStop` で停止できますが、次の保存で再開します。
+
 | キー        | 操作                             |
 | ----------- | -------------------------------- |
 | `\ll`       | latexmk の継続ビルドを開始・停止 |
@@ -69,13 +73,20 @@ latexmk は `scripts/init-setup.sh` のインストール対象です。
 | `zw`        | 単語を誤りとして登録             |
 
 ビルドには TeX Live などの TeX 環境も必要です。
-既定では pdfLaTeX を使います。日本語文書で LuaLaTeX を使う場合はファイルの先頭に次を記述します。
+英文は既定の pdfLaTeX を使います。和文はメインファイルの先頭に LuaLaTeX の指定を書き、
+`ltjsarticle` などの日本語対応クラスを使ってください。本文の言語による自動判定は行いません。
 
 ```tex
 % !TeX program = lualatex
+\documentclass{ltjsarticle}
+\begin{document}
+日本語の文書です。
+\end{document}
 ```
 
-PDF 表示にはシステムの既定の PDF viewer を使用します。
+コンパイラの指定を変更した場合は `:VimtexReload` で設定を読み直してから保存してください。
+日本語のコンパイルには TeX Live の LuaLaTeX・LuaTeX-ja・日本語フォントも必要です。
+PDF viewer を閉じた後にもう一度開く場合は `\lv` を使います。
 `:VimtexInfo` でコンパイラと viewer の設定を確認できます。
 スペルチェックは `:setlocal nospell` で無効にできます。
 
