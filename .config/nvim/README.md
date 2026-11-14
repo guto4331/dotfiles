@@ -73,18 +73,19 @@ latexmk は `scripts/init-setup.sh` のインストール対象です。
 | `zw`        | 単語を誤りとして登録             |
 
 ビルドには TeX Live などの TeX 環境も必要です。
-英文は既定の pdfLaTeX を使います。和文はメインファイルの先頭に LuaLaTeX の指定を書き、
-`ltjsarticle` などの日本語対応クラスを使ってください。本文の言語による自動判定は行いません。
+英文は既定の pdfLaTeX を使います。
+`ltjsarticle`・`ltjsreport`・`ltjsbook`・`ltjtarticle`・`ltjtreport`・`ltjtbook` は
+LuaLaTeX を自動選択するため、ファイル先頭のコンパイラ指定は不要です。
+TeX のコンパイラ指定や latexmkrc の `pdf_mode` がある場合はその指定を優先します。
 
 ```tex
-% !TeX program = lualatex
 \documentclass{ltjsarticle}
 \begin{document}
 日本語の文書です。
 \end{document}
 ```
 
-コンパイラの指定を変更した場合は `:VimtexReload` で設定を読み直してから保存してください。
+クラスやコンパイラの指定を変更した場合は、保存後に `:VimtexStop` と `:VimtexReload` を実行してから再度保存してください。
 日本語のコンパイルには TeX Live の LuaLaTeX・LuaTeX-ja・日本語フォントも必要です。
 PDF viewer を閉じた後にもう一度開く場合は `\lv` を使います。
 `:VimtexInfo` でコンパイラと viewer の設定を確認できます。
