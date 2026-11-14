@@ -123,24 +123,3 @@ Mason で管理するフォーマッタをダウンロードします。
 WezTerm で指定するフォントは別途インストールしてください。
 `.bashrc` は Starship と Rust の環境ファイルを読み込むため先に対応するツールをインストールします。
 ネイティブUbuntuで `pbcopy` を使用する場合は `xsel` も必要です。
-
-### Codex セッションの自動削除
-
-```sh
-bash scripts/codex-session-cleanup-setup.sh
-```
-
-systemd の user timer を有効にして5分ごとに確認します。
-最後のユーザー発言または Codex の応答から24時間以上経過したセッションを
-`codex delete --force` で完全に削除します。実行中の会話は除外します。
-PC の停止中は実行されず次回の user manager 起動後に確認します。
-
-削除対象だけを確認する場合は次を実行します。
-
-```sh
-bash scripts/codex-session-cleanup.sh --dry-run
-```
-
-Codex CLI・Python 3・systemd が必要です。現在のローカル保存形式
-`state_5.sqlite` と `thread_history_1.sqlite` の `paginated` セッションに対応します。
-保存形式が変わった場合はスクリプトの更新が必要です。
