@@ -58,6 +58,8 @@ Markdown ファイルでは render-markdown.nvim が見出し・表・コード�
 latexmk は `scripts/init-setup.sh` のインストール対象です。
 
 保存すると latexmk の継続ビルドを開始し、成功後にシステムの既定の PDF viewer で PDF を開きます。
+WSLではPDFのパスをWindows形式に変換し、Windows側のMicrosoft Edgeで開きます。
+Edgeは `/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe` を使用します。
 以降の保存では同じプロセスが再コンパイルします。
 `:VimtexStop` で停止できますが、次の保存で再開します。
 

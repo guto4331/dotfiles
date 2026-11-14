@@ -13,6 +13,14 @@ return {
 			vim.g.vimtex_compiler_latexmk = { continuous = 1, callback = 1 }
 			vim.g.vimtex_view_method = "general"
 			vim.g.vimtex_view_automatic = 1
+			if vim.uv.os_uname().release:lower():find("microsoft", 1, true) then
+				vim.g.vimtex_view_general_viewer = "sh"
+				vim.g.vimtex_view_general_options = "-c "
+					.. vim.fn.shellescape(
+						[[exec "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" "$(wslpath -w "$1")"]]
+					)
+					.. " -- @pdf"
+			end
 
 			local function select_latex_engine()
 				local state = vim.b.vimtex
